@@ -1,0 +1,6 @@
+{
+  "name": "Vishwakarma Furniture World",
+  "description": "Premium handcrafted wooden furniture store and manufacturer in Bihar. Custom furniture, wooden beds, sofa sets, dining tables, and more.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
