@@ -1,20 +1,14 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/ritiksharma2005/Website/blob/main/website.png?raw=true" />
 </div>
 
-# Run and deploy your AI Studio app
+# Run and deploy your Vishwakarma Furniture world Web
 
 This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/1d163672-a7bd-4816-bac0-c0d2a4731bc4
-
 ## Run Locally
 
 **Prerequisites:**  Node.js
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1. connect github and deploy 
+2. Run the app: loally by vs code 
