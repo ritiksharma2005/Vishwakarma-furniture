@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Poppins", system-ui, sans-serif;
+  
+  --color-primary: #6B3E26;
+  --color-secondary: #A66A3F;
+  --color-accent: #D4A373;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+  }
+  
+  body {
+    background-color: #FAF7F2;
+    color: #555555;
+    overflow-x: hidden;
+  }
+
+  /* Custom selection text styling to fit brand theme */
+  ::selection {
+    background-color: #D4A373;
+    color: #2C1810;
+  }
+}
+
+/* Custom animated background pulse glows */
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.45;
+  }
+}
+
+.wood-glow {
+  animation: pulseGlow 8s ease-in-out infinite;
+}
+
+/* Custom wiggle animation for buttons */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(3deg); }
+  75% { transform: rotate(-3deg); }
+}
+
+.animate-wiggle {
+  animation: wiggle 0.5s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.group:hover .animate-wiggle {
+  animation-play-state: running;
+}
