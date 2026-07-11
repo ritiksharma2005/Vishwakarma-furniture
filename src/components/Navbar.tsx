@@ -21,14 +21,24 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Lock background scroll while the mobile menu is open, and always show
+  // a solid header background in that state so page content never bleeds
+  // through the menu (regardless of scroll position).
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [open])
+
   return (
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        scrolled ? 'bg-walnut-950/95 shadow-lg shadow-black/20 backdrop-blur' : 'bg-transparent'
+        scrolled || open ? 'bg-walnut-950/95 shadow-lg shadow-black/20 backdrop-blur' : 'bg-transparent'
       }`}
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 h-16 md:h-20">
-        <a href="#home" className="flex items-center gap-3 group">
+        <a href="#home" className="flex items-center gap-3 group" onClick={() => setOpen(false)}>
           <img
             src="/images/vf-logo.jpg"
             alt="Vishwakarma Furniture logo"
@@ -44,7 +54,7 @@ export default function Navbar() {
 
         <div className="hidden lg:flex items-center gap-8">
           {LINKS.map((l) => (
-            <a
+            
               key={l.href}
               href={l.href}
               className="text-sm text-sawdust-200/85 hover:text-brass-light transition-colors relative after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-brass-light after:transition-all hover:after:w-full"
@@ -55,14 +65,14 @@ export default function Navbar() {
         </div>
 
         <div className="hidden lg:flex items-center gap-3">
-          <a
+          
             href={`tel:+91${SHOP.phone}`}
             className="inline-flex items-center gap-2 rounded-full border border-brass/50 px-4 py-2 text-xs font-medium text-brass-light hover:bg-brass/10 transition-colors"
           >
             <PhoneIcon />
             {SHOP.phoneDisplay}
           </a>
-          <a
+          
             href="#feedback"
             className="rounded-full bg-brass hover:bg-brass-light text-walnut-950 px-5 py-2 text-xs font-semibold tracking-wide transition-colors"
           >
@@ -72,7 +82,7 @@ export default function Navbar() {
 
         <button
           onClick={() => setOpen((o) => !o)}
-          className="lg:hidden text-sawdust-100 p-2"
+          className="lg:hidden relative z-[70] text-sawdust-100 p-2"
           aria-label="Toggle menu"
           aria-expanded={open}
         >
@@ -80,36 +90,51 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {open && (
-        <div className="lg:hidden bg-walnut-950/98 border-t border-brass/20 px-5 pb-6 pt-2 animate-plank-in">
+      {/* Full-screen mobile overlay — solid background, own stacking
+          context, sits above everything (including the hero) so nothing
+          from the page underneath can show through. */}
+      <div
+        className={`lg:hidden fixed inset-0 z-[60] bg-walnut-950 transition-opacity duration-300 ${
+          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        <div className="h-full flex flex-col justify-center px-8">
           <div className="flex flex-col gap-1">
-            {LINKS.map((l) => (
-              <a
+            {LINKS.map((l, i) => (
+              
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="py-3 text-sawdust-200 border-b border-white/5 text-sm"
+                className="py-4 text-2xl font-display text-sawdust-100 border-b border-white/10 transition-all"
+                style={{
+                  transitionDelay: open ? `${i * 40}ms` : '0ms',
+                  opacity: open ? 1 : 0,
+                  transform: open ? 'translateY(0)' : 'translateY(8px)',
+                }}
               >
                 {l.label}
               </a>
             ))}
           </div>
-          <div className="flex gap-3 mt-4">
-            <a
+
+          <div className="flex gap-3 mt-8">
+            
               href={`tel:+91${SHOP.phone}`}
-              className="flex-1 text-center rounded-full border border-brass/50 py-2.5 text-xs font-medium text-brass-light"
+              onClick={() => setOpen(false)}
+              className="flex-1 text-center rounded-full border border-brass/50 py-3 text-sm font-medium text-brass-light"
             >
               Call Now
             </a>
-            <a
+            
               href="#feedback"
-              className="flex-1 text-center rounded-full bg-brass text-walnut-950 py-2.5 text-xs font-semibold"
+              onClick={() => setOpen(false)}
+              className="flex-1 text-center rounded-full bg-brass text-walnut-950 py-3 text-sm font-semibold"
             >
               Get a Quote
             </a>
           </div>
         </div>
-      )}
+      </div>
     </header>
   )
 }
